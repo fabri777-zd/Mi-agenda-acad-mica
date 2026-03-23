@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi Agenda Académica</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FDF6EC;
+    --warm-white: #FFFBF5;
+    --sand: #F5E6D0;
+    --peach: #F5C9A0;
+    --terracotta: #D4845A;
+    --rust: #B85C38;
+    --brown: #7A3B1E;
+    --gold: #E8A838;
+    --soft-gold: #F0C96A;
+    --rose: #E8A0A0;
+    --sage: #A8B89C;
+    --lavender: #C9B8D8;
+    --sky: #A8C4D4;
+    --text-dark: #3D2B1F;
+    --text-mid: #6B4C3B;
+    --text-light: #9E7B6B;
+    --shadow: rgba(120, 60, 30, 0.12);
+    --shadow-strong: rgba(120, 60, 30, 0.22);
+  }
+
+- { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+font-family: ‘Nunito’, sans-serif;
+background: var(–cream);
+color: var(–text-dark);
+min-height: 100vh;
+background-image:
+radial-gradient(ellipse at 10% 10%, rgba(245,201,160,0.25) 0%, transparent 50%),
+radial-gradient(ellipse at 90% 80%, rgba(232,168,56,0.15) 0%, transparent 50%),
+radial-gradient(ellipse at 50% 50%, rgba(255,251,245,0.8) 0%, transparent 100%);
+}
+
+/* ── TOP HEADER ── */
+.app-header {
+background: linear-gradient(135deg, var(–rust) 0%, var(–terracotta) 60%, var(–gold) 100%);
+padding: 24px 32px 28px;
+position: sticky; top: 0; z-index: 100;
+box-shadow: 0 4px 20px var(–shadow-strong);
+}
+.app-header h1 {
+font-family: ‘Playfair Display’, serif;
+font-size: 2rem; font-weight: 700;
+color: #fff; letter-spacing: 0.5px;
+text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+.app-header p { color: rgba(255,255,255,0.85); font-size: 0.9rem; margin-top: 2px; }
+
+/* ── NAV TABS ── */
+.nav-tabs {
+display: flex; gap: 6px;
+padding: 18px 32px 0;
+border-bottom: 2px solid var(–sand);
+background: var(–warm-white);
+overflow-x: auto;
+}
+.nav-tab {
+padding: 10px 20px; border-radius: 12px 12px 0 0;
+border: none; cursor: pointer; font-family: ‘Nunito’, sans-serif;
+font-size: 0.88rem; font-weight: 600; transition: all 0.2s;
+background: transparent; color: var(–text-light);
+white-space: nowrap;
+}
+.nav-tab:hover { background: var(–sand); color: var(–rust); }
+.nav-tab.active {
+background: var(–cream); color: var(–rust);
+border-bottom: 2px solid var(–cream);
+margin-bottom: -2px;
+}
+
+/* ── MAIN CONTENT ── */
+.main { padding: 28px 32px; max-width: 1100px; margin: 0 auto; }
+
+.section { display: none; }
+.section.active { display: block; }
+
+/* ── CARDS ── */
+.card {
+background: var(–warm-white);
+border-radius: 18px;
+padding: 24px;
+box-shadow: 0 4px 18px var(–shadow);
+border: 1px solid rgba(245,201,160,0.4);
+margin-bottom: 20px;
+transition: box-shadow 0.2s;
+}
+.card:hover { box-shadow: 0 6px 28px var(–shadow-strong); }
+
+.card-title {
+font-family: ‘Playfair Display’, serif;
+font-size: 1.25rem; color: var(–rust);
+margin-bottom: 16px;
+display: flex; align-items: center; gap: 8px;
+}
+
+/* ── FORM ELEMENTS ── */
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.form-grid.three { grid-template-columns: 1fr 1fr 1fr; }
+.form-group { display: flex; flex-direction: column; gap: 5px; }
+.form-group.full { grid-column: 1 / -1; }
+
+label {
+font-size: 0.8rem; font-weight: 700;
+color: var(–text-mid); text-transform: uppercase;
+letter-spacing: 0.8px;
+}
+
+input, select, textarea {
+font-family: ‘Nunito’, sans-serif;
+font-size: 0.92rem; color: var(–text-dark);
+background: var(–cream);
+border: 1.5px solid rgba(212,132,90,0.3);
+border-radius: 10px; padding: 9px 13px;
+transition: border-color 0.2s, box-shadow 0.2s;
+outline: none;
+}
+input:focus, select:focus, textarea:focus {
+border-color: var(–terracotta);
+box-shadow: 0 0 0 3px rgba(212,132,90,0.15);
+}
+textarea { resize: vertical; min-height: 80px; }
+
+/* ── BUTTONS ── */
+.btn {
+font-family: ‘Nunito’, sans-serif;
+font-size: 0.9rem; font-weight: 700;
+padding: 10px 24px; border-radius: 12px;
+border: none; cursor: pointer;
+transition: all 0.2s; letter-spacing: 0.3px;
+}
+.btn-primary {
+background: linear-gradient(135deg, var(–terracotta), var(–rust));
+color: #fff; box-shadow: 0 3px 12px rgba(184,92,56,0.35);
+}
+.btn-primary:hover {
+transform: translateY(-2px);
+box-shadow: 0 6px 18px rgba(184,92,56,0.45);
+}
+.btn-secondary {
+background: var(–sand); color: var(–rust);
+}
+.btn-secondary:hover { background: var(–peach); }
+.btn-danger {
+background: transparent; color: #c0392b;
+border: 1.5px solid #c0392b;
+padding: 6px 14px; font-size: 0.8rem;
+}
+.btn-danger:hover { background: #ffeaea; }
+.btn-edit {
+background: transparent; color: var(–terracotta);
+border: 1.5px solid var(–terracotta);
+padding: 6px 14px; font-size: 0.8rem;
+}
+.btn-edit:hover { background: rgba(212,132,90,0.1); }
+
+/* ── EVENT PILLS ── */
+.event-type-badge {
+display: inline-block; padding: 3px 10px;
+border-radius: 20px; font-size: 0.75rem; font-weight: 700;
+}
+.badge-clase    { background: #D4EAD8; color: #2E7D32; }
+.badge-parcial  { background: #FFE0CC; color: #B85C38; }
+.badge-laboratorio { background: #CCE5FF; color: #1565C0; }
+.badge-taller   { background: #F3E5FF; color: #6A1B9A; }
+.badge-otro     { background: var(–sand); color: var(–brown); }
+
+/* ── EVENT LIST ── */
+.event-item {
+background: var(–warm-white);
+border: 1.5px solid rgba(245,201,160,0.5);
+border-radius: 14px; padding: 16px 20px;
+margin-bottom: 12px;
+display: flex; justify-content: space-between; align-items: flex-start;
+gap: 12px;
+transition: all 0.2s;
+animation: fadeIn 0.3s ease;
+}
+@keyframes fadeIn {
+from { opacity: 0; transform: translateY(8px); }
+to   { opacity: 1; transform: translateY(0); }
+}
+.event-item:hover { border-color: var(–peach); box-shadow: 0 3px 14px var(–shadow); }
+
+.event-info { flex: 1; }
+.event-title { font-weight: 700; font-size: 1rem; color: var(–text-dark); }
+.event-meta { font-size: 0.82rem; color: var(–text-light); margin-top: 4px; }
+.event-meta span { margin-right: 12px; }
+.event-details { font-size: 0.85rem; color: var(–text-mid); margin-top: 8px; line-height: 1.5; }
+.event-grade {
+font-family: ‘Playfair Display’, serif;
+font-size: 1.5rem; font-weight: 700;
+color: var(–rust); min-width: 48px; text-align: center;
+}
+.event-actions { display: flex; gap: 6px; align-items: center; }
+
+/* ── NOTA HIGHLIGHT ── */
+.grade-pill {
+display: inline-block;
+padding: 2px 12px; border-radius: 20px;
+font-weight: 700; font-size: 0.9rem;
+background: linear-gradient(135deg, var(–soft-gold), var(–gold));
+color: var(–brown);
+box-shadow: 0 2px 6px rgba(232,168,56,0.3);
+}
+
+/* ── CALENDAR ── */
+.calendar-header {
+display: flex; justify-content: space-between; align-items: center;
+margin-bottom: 16px;
+}
+.calendar-nav { display: flex; gap: 8px; align-items: center; }
+.cal-month {
+font-family: ‘Playfair Display’, serif;
+font-size: 1.3rem; color: var(–rust); font-weight: 600;
+min-width: 200px; text-align: center;
+}
+.calendar-grid {
+display: grid; grid-template-columns: repeat(7, 1fr);
+gap: 4px;
+}
+.cal-day-name {
+text-align: center; font-size: 0.75rem; font-weight: 700;
+color: var(–text-light); text-transform: uppercase;
+letter-spacing: 0.5px; padding: 8px 0;
+}
+.cal-day {
+min-height: 76px; border-radius: 10px;
+padding: 6px; background: var(–warm-white);
+border: 1.5px solid rgba(245,201,160,0.3);
+font-size: 0.8rem; transition: all 0.15s; cursor: pointer;
+}
+.cal-day:hover { border-color: var(–terracotta); }
+.cal-day.today { border-color: var(–gold); background: rgba(240,201,106,0.12); }
+.cal-day.other-month { opacity: 0.35; }
+.cal-day-num { font-weight: 700; color: var(–text-mid); font-size: 0.85rem; }
+.cal-event-dot {
+display: inline-block; width: 6px; height: 6px;
+border-radius: 50%; margin: 1px 1px 0 0;
+}
+.dot-clase    { background: #4CAF50; }
+.dot-parcial  { background: #FF7043; }
+.dot-laboratorio { background: #2196F3; }
+.dot-taller   { background: #9C27B0; }
+.dot-otro     { background: var(–terracotta); }
+.cal-event-label {
+font-size: 0.68rem; color: var(–text-mid);
+white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+display: block; margin-top: 2px;
+}
+
+/* ── RESUMEN STATS ── */
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 24px; }
+.stat-card {
+background: var(–warm-white); border-radius: 16px;
+padding: 20px 16px; text-align: center;
+border: 1.5px solid rgba(245,201,160,0.4);
+box-shadow: 0 3px 12px var(–shadow);
+}
+.stat-num {
+font-family: ‘Playfair Display’, serif;
+font-size: 2.2rem; font-weight: 700; color: var(–rust);
+}
+.stat-label { font-size: 0.78rem; color: var(–text-light); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* ── UPCOMING ── */
+.upcoming-day { font-family: ‘Playfair Display’, serif; font-size: 0.95rem; color: var(–terracotta); font-weight: 600; margin: 16px 0 8px; }
+
+/* ── MODAL ── */
+.modal-overlay {
+display: none; position: fixed; inset: 0;
+background: rgba(61,43,31,0.45); backdrop-filter: blur(4px);
+z-index: 200; align-items: center; justify-content: center;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+background: var(–warm-white); border-radius: 22px;
+padding: 32px; max-width: 520px; width: 90%;
+box-shadow: 0 16px 60px rgba(120,60,30,0.3);
+animation: slideUp 0.25s ease;
+max-height: 90vh; overflow-y: auto;
+}
+@keyframes slideUp {
+from { transform: translateY(30px); opacity: 0; }
+to   { transform: translateY(0); opacity: 1; }
+}
+.modal-title {
+font-family: ‘Playfair Display’, serif;
+font-size: 1.4rem; color: var(–rust); margin-bottom: 20px;
+}
+.modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+
+/* ── EMPTY STATE ── */
+.empty-state {
+text-align: center; padding: 48px 24px;
+color: var(–text-light);
+}
+.empty-icon { font-size: 3rem; margin-bottom: 12px; }
+.empty-state p { font-size: 1rem; }
+
+/* ── FILTER BAR ── */
+.filter-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+.filter-chip {
+padding: 6px 16px; border-radius: 20px; border: 1.5px solid var(–peach);
+background: transparent; color: var(–text-mid);
+font-family: ‘Nunito’, sans-serif; font-size: 0.82rem; font-weight: 600;
+cursor: pointer; transition: all 0.15s;
+}
+.filter-chip:hover, .filter-chip.active {
+background: var(–terracotta); color: #fff; border-color: var(–terracotta);
+}
+
+/* ── NOTAS SECTION ── */
+.grade-overview {
+display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+}
+.subject-grade-card {
+background: var(–cream); border-radius: 14px;
+padding: 16px; border: 1.5px solid rgba(245,201,160,0.5);
+}
+.subject-grade-card h4 { font-weight: 700; color: var(–text-dark); margin-bottom: 8px; }
+.grade-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; border-bottom: 1px solid rgba(245,201,160,0.4); font-size: 0.85rem; }
+.grade-row:last-child { border-bottom: none; }
+.avg-row { font-weight: 700; color: var(–rust); margin-top: 8px; border-top: 2px solid var(–peach); padding-top: 8px; font-size: 0.9rem; }
+
+.badge-evaluativo { background: #FFF3CD; color: #856404; }
+.dot-evaluativo { background: #FFC107; }
+
+/* ── SUBJECT PROGRESS ── */
+.subject-progress-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 24px; }
+.subject-card {
+background: var(–warm-white); border-radius: 18px; padding: 22px;
+border: 1.5px solid rgba(245,201,160,0.5);
+box-shadow: 0 4px 16px var(–shadow);
+}
+.subject-card-title {
+font-family: ‘Playfair Display’, serif;
+font-size: 1.15rem; color: var(–rust); font-weight: 700;
+margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
+}
+.progress-row { margin-bottom: 12px; }
+.progress-label { display: flex; justify-content: space-between; font-size: 0.82rem; font-weight: 700; color: var(–text-mid); margin-bottom: 5px; }
+.progress-bar-bg { background: var(–sand); border-radius: 20px; height: 10px; overflow: hidden; }
+.progress-bar-fill { height: 100%; border-radius: 20px; transition: width 0.6s ease; }
+.fill-lab    { background: linear-gradient(90deg, #64B5F6, #1565C0); }
+.fill-parc   { background: linear-gradient(90deg, var(–peach), var(–rust)); }
+.fill-eval   { background: linear-gradient(90deg, #FFE082, #F57F17); }
+.progress-count { font-size: 0.78rem; color: var(–text-light); text-align: right; margin-top: 3px; }
+
+@media (max-width: 640px) { .subject-progress-grid { grid-template-columns: 1fr; } }
+.main { padding: 16px; }
+.nav-tabs { padding: 14px 16px 0; }
+.app-header { padding: 18px 16px 20px; }
+.app-header h1 { font-size: 1.5rem; }
+.form-grid { grid-template-columns: 1fr; }
+.form-grid.three { grid-template-columns: 1fr; }
+.stats-grid { grid-template-columns: repeat(2,1fr); }
+.grade-overview { grid-template-columns: 1fr; }
+}
+/* ── AI CHAT ── */
+.ai-bubble {
+background: var(–sand); color: var(–text-dark);
+border-radius: 18px 18px 18px 4px;
+padding: 12px 16px; font-size: 0.88rem; line-height: 1.6;
+max-width: 88%; align-self: flex-start;
+border: 1px solid rgba(245,201,160,0.6);
+white-space: pre-wrap;
+}
+.user-bubble {
+background: linear-gradient(135deg, var(–terracotta), var(–rust));
+color: #fff; border-radius: 18px 18px 4px 18px;
+padding: 12px 16px; font-size: 0.88rem; line-height: 1.6;
+max-width: 80%; align-self: flex-end;
+}
+.typing-bubble {
+background: var(–sand); border-radius: 18px 18px 18px 4px;
+padding: 12px 20px; align-self: flex-start;
+border: 1px solid rgba(245,201,160,0.6);
+}
+.typing-dot {
+display: inline-block; width: 8px; height: 8px;
+border-radius: 50%; background: var(–terracotta);
+margin: 0 2px; animation: typingBounce 1.2s infinite;
+}
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typingBounce {
+0%,60%,100% { transform: translateY(0); opacity:0.4; }
+30% { transform: translateY(-6px); opacity:1; }
+}
+.pdf-item {
+display: flex; align-items: center; gap: 8px;
+padding: 8px 10px; border-radius: 10px;
+background: var(–cream); border: 1px solid rgba(245,201,160,0.5);
+margin-bottom: 7px; font-size: 0.82rem;
+}
+.pdf-item-name { flex:1; color: var(–text-dark); font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.pdf-item-size { color: var(–text-light); font-size:0.73rem; white-space:nowrap; }
+.pdf-remove { background:none; border:none; cursor:pointer; color:#c0392b; font-size:0.85rem; padding:0 2px; }
+.quick-btn {
+width:100%; text-align:left; padding:8px 12px;
+background:var(–cream); border:1.5px solid var(–peach);
+border-radius:10px; cursor:pointer; font-family:‘Nunito’,sans-serif;
+font-size:0.8rem; font-weight:600; color:var(–text-mid);
+transition:all 0.15s;
+}
+.quick-btn:hover { background:var(–peach); color:var(–rust); border-color:var(–terracotta); }
+
+@media (max-width: 760px) {
+#main-estudiar > section > div { grid-template-columns: 1fr !important; height:auto !important; }
+}
+</style>
+
+</head>
+<body>
+
+<header class="app-header">
+  <h1>📚 Mi Agenda Académica</h1>
+  <p>Organiza tus clases, parciales, laboratorios y más</p>
+</header>
+
+<nav class="nav-tabs">
+  <button class="nav-tab active" onclick="switchTab('inicio')">🏠 Inicio</button>
+  <button class="nav-tab" onclick="switchTab('agregar')">➕ Agregar</button>
+  <button class="nav-tab" onclick="switchTab('eventos')">📋 Todos los eventos</button>
+  <button class="nav-tab" onclick="switchTab('calendario')">🗓️ Calendario</button>
+  <button class="nav-tab" onclick="switchTab('notas')">📊 Mis notas</button>
+  <button class="nav-tab" onclick="switchTab('estudiar')">🤖 Estudiar con IA</button>
+</nav>
+
+<!-- ═══════════ INICIO ═══════════ -->
+
+<div class="main">
+<section id="sec-inicio" class="section active">
+
+  <div class="subject-progress-grid" id="subject-progress"></div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-num" id="stat-clases">0</div>
+      <div class="stat-label">Clases</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" id="stat-parciales">0</div>
+      <div class="stat-label">Parc / Eval</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" id="stat-labs">0</div>
+      <div class="stat-label">Laboratorios</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" id="stat-talleres">0</div>
+      <div class="stat-label">Talleres</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⏰ Próximos eventos</div>
+    <div id="upcoming-list"><div class="empty-state"><div class="empty-icon">🌸</div><p>No hay eventos próximos</p></div></div>
+  </div>
+
+</section>
+
+<!-- ═══════════ AGREGAR ═══════════ -->
+
+<section id="sec-agregar" class="section">
+  <div class="card">
+    <div class="card-title">✨ Nuevo evento</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Materia / Asignatura</label>
+        <select id="f-materia" onchange="updateTipoOptions()">
+          <option value="Anatomía">🦴 Anatomía</option>
+          <option value="Química Orgánica 1">🧪 Química Orgánica 1</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Tipo de evento</label>
+        <select id="f-tipo" onchange="toggleFields(); updateNumero()">
+          <option value="clase">📖 Clase</option>
+          <option value="parcial">📝 Parcial / Examen</option>
+          <option value="laboratorio">🔬 Laboratorio</option>
+          <option value="evaluativo">📋 Evaluativo</option>
+          <option value="taller">🛠️ Taller</option>
+          <option value="otro">⭐ Otro</option>
+        </select>
+      </div>
+      <div class="form-group" id="numero-field">
+        <label>Número <span id="numero-hint" style="font-weight:400;text-transform:none;letter-spacing:0"></span></label>
+        <select id="f-numero"></select>
+      </div>
+      <div class="form-group">
+        <label>Fecha</label>
+        <input id="f-fecha" type="date">
+      </div>
+      <div class="form-group">
+        <label>Hora</label>
+        <input id="f-hora" type="time">
+      </div>
+      <div class="form-group">
+        <label>Lugar / Aula</label>
+        <input id="f-lugar" type="text" placeholder="Ej: Aula 204">
+      </div>
+      <div class="form-group">
+        <label>Docente</label>
+        <input id="f-docente" type="text" placeholder="Nombre del profesor">
+      </div>
+      <div class="form-group full">
+        <label>Temas a tratar / que van en este evento</label>
+        <textarea id="f-temas" placeholder="Ej: Derivadas, límites, integrales..."></textarea>
+      </div>
+      <div class="form-group full" id="nota-field">
+        <label>Nota obtenida (si ya pasó)</label>
+        <input id="f-nota" type="number" min="0" max="100" step="0.1" placeholder="Ej: 4.5 o 85...">
+      </div>
+      <div class="form-group full">
+        <label>Notas adicionales</label>
+        <textarea id="f-notas" placeholder="Cualquier detalle importante..."></textarea>
+      </div>
+    </div>
+    <div style="margin-top:18px; display:flex; gap:10px;">
+      <button class="btn btn-primary" onclick="saveEvent()">💾 Guardar evento</button>
+      <button class="btn btn-secondary" onclick="clearForm()">🗑️ Limpiar</button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ TODOS LOS EVENTOS ═══════════ -->
+
+<section id="sec-eventos" class="section">
+  <div class="filter-bar">
+    <button class="filter-chip active" onclick="setFilter('todos',this)">Todos</button>
+    <button class="filter-chip" onclick="setFilter('clase',this)">📖 Clases</button>
+    <button class="filter-chip" onclick="setFilter('parcial',this)">📝 Parciales</button>
+    <button class="filter-chip" onclick="setFilter('evaluativo',this)">📋 Evaluativos</button>
+    <button class="filter-chip" onclick="setFilter('laboratorio',this)">🔬 Laboratorios</button>
+    <button class="filter-chip" onclick="setFilter('taller',this)">🛠️ Talleres</button>
+    <button class="filter-chip" onclick="setFilter('otro',this)">⭐ Otros</button>
+  </div>
+  <div id="events-list"></div>
+</section>
+
+<!-- ═══════════ CALENDARIO ═══════════ -->
+
+<section id="sec-calendario" class="section">
+  <div class="card">
+    <div class="calendar-header">
+      <div class="calendar-nav">
+        <button class="btn btn-secondary" onclick="changeMonth(-1)">← Anterior</button>
+        <div class="cal-month" id="cal-month-label"></div>
+        <button class="btn btn-secondary" onclick="changeMonth(1)">Siguiente →</button>
+      </div>
+    </div>
+    <div class="calendar-grid" id="calendar-grid"></div>
+  </div>
+</section>
+
+<!-- ═══════════ NOTAS ═══════════ -->
+
+<section id="sec-notas" class="section">
+  <div class="card">
+    <div class="card-title">📊 Resumen de notas por materia</div>
+    <div id="grades-overview"></div>
+  </div>
+</section>
+
+<!-- ═══════════ ESTUDIAR CON IA ═══════════ -->
+
+<section id="sec-estudiar" class="section">
+
+  <div style="display:grid; grid-template-columns:300px 1fr; gap:20px; height:calc(100vh - 200px); min-height:520px;">
+
+```
+<!-- PANEL IZQUIERDO: PDFs -->
+<div style="display:flex; flex-direction:column; gap:14px; overflow:hidden;">
+  <div class="card" style="flex:0 0 auto;">
+    <div class="card-title" style="margin-bottom:10px;">📄 Mis apuntes (PDF)</div>
+    <label for="pdf-upload" style="
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      border: 2px dashed var(--peach); border-radius:14px; padding:18px 10px;
+      cursor:pointer; background:var(--cream); transition:all 0.2s; text-align:center;
+      color:var(--text-mid); font-size:0.85rem; gap:5px;
+    " onmouseover="this.style.borderColor='var(--terracotta)'" onmouseout="this.style.borderColor='var(--peach)'">
+      <span style="font-size:1.8rem;">📁</span>
+      <strong>Subir PDFs</strong>
+      <span style="font-size:0.73rem;color:var(--text-light)">Clic aquí para elegir</span>
+    </label>
+    <input type="file" id="pdf-upload" accept=".pdf" multiple style="display:none" onchange="handlePDFs(this.files)">
+  </div>
+
+  <div class="card" style="flex:0 0 auto; max-height:160px; overflow-y:auto;">
+    <div class="card-title" style="margin-bottom:8px;font-size:0.95rem;">📚 PDFs cargados</div>
+    <div id="pdf-list"><div style="text-align:center;color:var(--text-light);font-size:0.82rem;padding:10px 0;">Sin PDFs aún</div></div>
+  </div>
+
+  <div class="card" style="flex:1; overflow-y:auto;">
+    <div class="card-title" style="margin-bottom:10px;font-size:0.95rem;">⚡ Preguntas rápidas</div>
+    <div style="display:flex;flex-direction:column;gap:7px;">
+      <button class="quick-btn" onclick="quickPrompt('Haceme un resumen de los temas principales de estos apuntes')">📝 Resumir apuntes</button>
+      <button class="quick-btn" onclick="quickPrompt('Generame 10 preguntas de estudio tipo examen con sus respuestas')">❓ Generar cuestionario</button>
+      <button class="quick-btn" onclick="quickPrompt('Explicame los conceptos más difíciles de forma simple')">💡 Explicar conceptos difíciles</button>
+      <button class="quick-btn" onclick="quickPrompt('Haceme un mapa conceptual en texto de los temas principales')">🗺️ Mapa conceptual</button>
+      <button class="quick-btn" onclick="quickPrompt('¿Qué preguntas podría hacer el profesor en un examen sobre estos temas?')">🎯 Posibles preguntas de examen</button>
+    </div>
+  </div>
+</div>
+
+<!-- PANEL DERECHO: CHAT -->
+<div class="card" style="display:flex;flex-direction:column;padding:0;overflow:hidden;">
+  <div style="padding:16px 20px;border-bottom:1.5px solid var(--sand);display:flex;align-items:center;gap:10px;flex-shrink:0;">
+    <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--terracotta),var(--rust));display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;">🤖</div>
+    <div>
+      <div style="font-weight:700;color:var(--text-dark);font-size:0.92rem;">Asistente de estudio</div>
+      <div style="font-size:0.73rem;color:var(--text-light);" id="ai-status">Sube un PDF para comenzar</div>
+    </div>
+    <button onclick="clearChat()" style="margin-left:auto;background:transparent;border:1.5px solid var(--peach);border-radius:8px;cursor:pointer;color:var(--text-light);font-size:0.78rem;font-family:'Nunito',sans-serif;padding:4px 10px;">🗑️ Limpiar</button>
+  </div>
+
+  <div id="chat-messages" style="flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:12px;">
+    <div class="ai-bubble">
+      ¡Hola! 👋 Soy tu asistente de estudio. Subí uno o más PDFs de tus apuntes y después preguntame lo que quieras: que te explique algo, que te haga preguntas para practicar, que resuma un tema... ¡lo que necesites! 🌸
+    </div>
+  </div>
+
+  <div style="padding:12px 16px;border-top:1.5px solid var(--sand);display:flex;gap:10px;align-items:flex-end;flex-shrink:0;">
+    <textarea id="chat-input" placeholder="Escribí tu pregunta aquí... (Enter para enviar)" rows="2"
+      style="flex:1;resize:none;min-height:44px;max-height:110px;border-radius:12px;"
+      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage();}"></textarea>
+    <button class="btn btn-primary" onclick="sendMessage()" id="send-btn" style="padding:10px 16px;white-space:nowrap;flex-shrink:0;">
+      Enviar ✨
+    </button>
+  </div>
+</div>
+```
+
+  </div>
+</section>
+
+</div>
+<div class="modal-overlay" id="edit-modal">
+  <div class="modal">
+    <div class="modal-title">✏️ Editar evento</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Tipo</label>
+        <select id="e-tipo">
+          <option value="clase">📖 Clase</option>
+          <option value="parcial">📝 Parcial / Examen</option>
+          <option value="laboratorio">🔬 Laboratorio</option>
+          <option value="evaluativo">📋 Evaluativo</option>
+          <option value="taller">🛠️ Taller</option>
+          <option value="otro">⭐ Otro</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Materia</label>
+        <select id="e-materia">
+          <option value="Anatomía">🦴 Anatomía</option>
+          <option value="Química Orgánica 1">🧪 Química Orgánica 1</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Fecha</label>
+        <input id="e-fecha" type="date">
+      </div>
+      <div class="form-group">
+        <label>Hora</label>
+        <input id="e-hora" type="time">
+      </div>
+      <div class="form-group">
+        <label>Lugar</label>
+        <input id="e-lugar" type="text">
+      </div>
+      <div class="form-group">
+        <label>Docente</label>
+        <input id="e-docente" type="text">
+      </div>
+      <div class="form-group full">
+        <label>Temas</label>
+        <textarea id="e-temas"></textarea>
+      </div>
+      <div class="form-group full">
+        <label>Nota obtenida</label>
+        <input id="e-nota" type="number" min="0" max="100" step="0.1">
+      </div>
+      <div class="form-group full">
+        <label>Notas adicionales</label>
+        <textarea id="e-notas"></textarea>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveEdit()">💾 Guardar cambios</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ MODAL VER DÍA CALENDARIO ═══════════ -->
+
+<div class="modal-overlay" id="day-modal">
+  <div class="modal">
+    <div class="modal-title" id="day-modal-title"></div>
+    <div id="day-modal-content"></div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeDayModal()">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let events = JSON.parse(localStorage.getItem('agendaEvents') || '[]');
+let currentFilter = 'todos';
+let editingId = null;
+let calYear, calMonth;
+
+const today = new Date();
+calYear = today.getFullYear();
+calMonth = today.getMonth();
+
+// ── Subject config ──
+const SUBJECTS = {
+  'Anatomía': {
+    emoji: '🦴',
+    tipos: { laboratorio: 9, parcial: 3 }
+  },
+  'Química Orgánica 1': {
+    emoji: '🧪',
+    tipos: { laboratorio: 6, evaluativo: 4 }
+  }
+};
+
+function save() {
+  localStorage.setItem('agendaEvents', JSON.stringify(events));
+  refreshAll();
+}
+
+function genId() { return Date.now().toString(36) + Math.random().toString(36).substr(2); }
+
+// ── Dynamic tipo options based on materia ──
+function updateTipoOptions() {
+  const materia = document.getElementById('f-materia').value;
+  const tipoSel = document.getElementById('f-tipo');
+  const subj = SUBJECTS[materia];
+  const allTipos = [
+    {v:'clase', l:'📖 Clase'},
+    {v:'parcial', l:'📝 Parcial / Examen'},
+    {v:'laboratorio', l:'🔬 Laboratorio'},
+    {v:'evaluativo', l:'📋 Evaluativo'},
+    {v:'taller', l:'🛠️ Taller'},
+    {v:'otro', l:'⭐ Otro'}
+  ];
+  // For Química: no parciales; for Anatomía: no evaluativos
+  const excluded = materia === 'Anatomía' ? ['evaluativo'] : materia === 'Química Orgánica 1' ? ['parcial'] : [];
+  tipoSel.innerHTML = allTipos
+    .filter(t => !excluded.includes(t.v))
+    .map(t => `<option value="${t.v}">${t.l}</option>`)
+    .join('');
+  toggleFields();
+  updateNumero();
+}
+
+// ── Number picker for labs/parcials/evaluativos ──
+function updateNumero() {
+  const materia = document.getElementById('f-materia').value;
+  const tipo = document.getElementById('f-tipo').value;
+  const numField = document.getElementById('numero-field');
+  const numSel = document.getElementById('f-numero');
+  const hint = document.getElementById('numero-hint');
+  const subj = SUBJECTS[materia];
+  if(subj && subj.tipos[tipo]) {
+    const total = subj.tipos[tipo];
+    const label = tipo === 'laboratorio' ? 'Laboratorio' : tipo === 'parcial' ? 'Parcial' : 'Evaluativo';
+    hint.textContent = `(1 – ${total})`;
+    numSel.innerHTML = Array.from({length:total}, (_,i) =>
+      `<option value="${i+1}">${label} ${i+1}</option>`).join('');
+    numField.style.display = 'flex';
+  } else {
+    numField.style.display = 'none';
+  }
+}
+
+function toggleFields() {
+  const tipo = document.getElementById('f-tipo').value;
+  document.getElementById('nota-field').style.display =
+    ['parcial','laboratorio','evaluativo','taller'].includes(tipo) ? 'block' : 'none';
+}
+
+function clearForm() {
+  document.getElementById('f-materia').selectedIndex = 0;
+  document.getElementById('f-fecha').value = today.toISOString().slice(0,10);
+  ['f-hora','f-lugar','f-docente','f-temas','f-nota','f-notas'].forEach(fid => {
+    document.getElementById(fid).value = '';
+  });
+  updateTipoOptions();
+}
+
+function saveEvent() {
+  const materia = document.getElementById('f-materia').value;
+  const fecha = document.getElementById('f-fecha').value;
+  if(!fecha) { alert('Por favor elige una fecha 🌸'); return; }
+  const tipo = document.getElementById('f-tipo').value;
+  const numField = document.getElementById('numero-field');
+  const numero = numField.style.display !== 'none' ? document.getElementById('f-numero').value : '';
+  const ev = {
+    id: genId(),
+    tipo,
+    materia,
+    numero,
+    fecha,
+    hora: document.getElementById('f-hora').value,
+    lugar: document.getElementById('f-lugar').value.trim(),
+    docente: document.getElementById('f-docente').value.trim(),
+    temas: document.getElementById('f-temas').value.trim(),
+    nota: document.getElementById('f-nota').value,
+    notas: document.getElementById('f-notas').value.trim(),
+    creado: Date.now()
+  };
+  events.push(ev);
+  save();
+  clearForm();
+  switchTab('eventos');
+}
+
+function deleteEvent(evId) {
+  if(confirm('¿Eliminar este evento? 🗑️')) {
+    events = events.filter(e => e.id !== evId);
+    save();
+  }
+}
+
+function openEdit(evId) {
+  editingId = evId;
+  const ev = events.find(e => e.id === evId);
+  if(!ev) return;
+  document.getElementById('e-tipo').value = ev.tipo;
+  document.getElementById('e-materia').value = ev.materia;
+  document.getElementById('e-fecha').value = ev.fecha;
+  document.getElementById('e-hora').value = ev.hora;
+  document.getElementById('e-lugar').value = ev.lugar;
+  document.getElementById('e-docente').value = ev.docente;
+  document.getElementById('e-temas').value = ev.temas;
+  document.getElementById('e-nota').value = ev.nota;
+  document.getElementById('e-notas').value = ev.notas;
+  document.getElementById('edit-modal').classList.add('open');
+}
+
+function saveEdit() {
+  const ev = events.find(e => e.id === editingId);
+  if(!ev) return;
+  ev.tipo = document.getElementById('e-tipo').value;
+  ev.materia = document.getElementById('e-materia').value.trim();
+  ev.fecha = document.getElementById('e-fecha').value;
+  ev.hora = document.getElementById('e-hora').value;
+  ev.lugar = document.getElementById('e-lugar').value.trim();
+  ev.docente = document.getElementById('e-docente').value.trim();
+  ev.temas = document.getElementById('e-temas').value.trim();
+  ev.nota = document.getElementById('e-nota').value;
+  ev.notas = document.getElementById('e-notas').value.trim();
+  closeModal();
+  save();
+}
+
+function closeModal() {
+  document.getElementById('edit-modal').classList.remove('open');
+  editingId = null;
+}
+function closeDayModal() {
+  document.getElementById('day-modal').classList.remove('open');
+}
+
+/* ──── Labels ──── */
+const typeLabel = { clase:'Clase', parcial:'Parcial/Examen', laboratorio:'Laboratorio', evaluativo:'Evaluativo', taller:'Taller', otro:'Otro' };
+const typeEmoji = { clase:'📖', parcial:'📝', laboratorio:'🔬', evaluativo:'📋', taller:'🛠️', otro:'⭐' };
+function badgeHtml(tipo) {
+  return `<span class="event-type-badge badge-${tipo}">${typeEmoji[tipo]||'⭐'} ${typeLabel[tipo]||tipo}</span>`;
+}
+function fmtDate(d) {
+  if(!d) return '';
+  const [y,m,day] = d.split('-');
+  return `${day}/${m}/${y}`;
+}
+const monthNames = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+
+/* ──── Subject progress ──── */
+function renderSubjectProgress() {
+  let html = '';
+  Object.entries(SUBJECTS).forEach(([subj, conf]) => {
+    html += `<div class="subject-card">
+      <div class="subject-card-title">${conf.emoji} ${subj}</div>`;
+    Object.entries(conf.tipos).forEach(([tipo, total]) => {
+      const done = events.filter(e => e.materia === subj && e.tipo === tipo).length;
+      const pct = Math.min(100, Math.round(done/total*100));
+      const fillClass = tipo==='laboratorio'?'fill-lab': tipo==='parcial'?'fill-parc':'fill-eval';
+      const label = typeLabel[tipo] + 's';
+      html += `<div class="progress-row">
+        <div class="progress-label"><span>${typeEmoji[tipo]} ${label}</span><span>${pct}%</span></div>
+        <div class="progress-bar-bg"><div class="progress-bar-fill ${fillClass}" style="width:${pct}%"></div></div>
+        <div class="progress-count">${done} de ${total} registrados</div>
+      </div>`;
+    });
+    html += `</div>`;
+  });
+  document.getElementById('subject-progress').innerHTML = html;
+}
+
+/* ──── Render events list ──── */
+function renderEvents() {
+  const list = document.getElementById('events-list');
+  let filtered = currentFilter==='todos' ? [...events] : events.filter(e=>e.tipo===currentFilter);
+  filtered.sort((a,b) => a.fecha.localeCompare(b.fecha));
+  if(!filtered.length) {
+    list.innerHTML = `<div class="empty-state"><div class="empty-icon">🌻</div><p>No hay eventos para mostrar</p></div>`;
+    return;
+  }
+  list.innerHTML = filtered.map(ev => `
+    <div class="event-item">
+      <div class="event-info">
+        <div class="event-title">${badgeHtml(ev.tipo)} ${ev.materia}${ev.numero ? ` — Nº ${ev.numero}` : ''}</div>
+        <div class="event-meta">
+          <span>📅 ${fmtDate(ev.fecha)}</span>
+          ${ev.hora ? `<span>🕐 ${ev.hora}</span>`:''}
+          ${ev.lugar ? `<span>📍 ${ev.lugar}</span>`:''}
+          ${ev.docente ? `<span>👩‍🏫 ${ev.docente}</span>`:''}
+        </div>
+        ${ev.temas ? `<div class="event-details">📌 <strong>Temas:</strong> ${ev.temas}</div>`:''}
+        ${ev.notas ? `<div class="event-details">💬 ${ev.notas}</div>`:''}
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+        ${ev.nota ? `<span class="grade-pill">${ev.nota}</span>`:'' }
+        <div class="event-actions">
+          <button class="btn btn-edit" onclick="openEdit('${ev.id}')">✏️</button>
+          <button class="btn btn-danger" onclick="deleteEvent('${ev.id}')">🗑️</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+/* ──── Stats & upcoming ──── */
+function renderStats() {
+  document.getElementById('stat-clases').textContent = events.filter(e=>e.tipo==='clase').length;
+  document.getElementById('stat-parciales').textContent = events.filter(e=>e.tipo==='parcial'||e.tipo==='evaluativo').length;
+  document.getElementById('stat-labs').textContent = events.filter(e=>e.tipo==='laboratorio').length;
+  document.getElementById('stat-talleres').textContent = events.filter(e=>e.tipo==='taller').length;
+}
+
+function renderUpcoming() {
+  const todayStr = today.toISOString().slice(0,10);
+  const upcoming = events
+    .filter(e => e.fecha >= todayStr)
+    .sort((a,b) => a.fecha.localeCompare(b.fecha))
+    .slice(0, 8);
+
+  if(!upcoming.length) {
+    document.getElementById('upcoming-list').innerHTML =
+      `<div class="empty-state"><div class="empty-icon">🌸</div><p>¡No hay eventos próximos! Agrega uno.</p></div>`;
+    return;
+  }
+
+  let grouped = {};
+  upcoming.forEach(ev => {
+    if(!grouped[ev.fecha]) grouped[ev.fecha] = [];
+    grouped[ev.fecha].push(ev);
+  });
+
+  let html = '';
+  Object.entries(grouped).forEach(([date, evs]) => {
+    const [y,m,d] = date.split('-');
+    const isToday = date === todayStr;
+    html += `<div class="upcoming-day">${isToday?'🌟 Hoy':'📅'} ${d} de ${monthNames[parseInt(m)-1]} ${y}</div>`;
+    evs.forEach(ev => {
+      html += `<div class="event-item" style="margin-bottom:8px;">
+        <div class="event-info">
+          <div class="event-title">${badgeHtml(ev.tipo)} ${ev.materia}</div>
+          <div class="event-meta">
+            ${ev.hora?`<span>🕐 ${ev.hora}</span>`:''}
+            ${ev.lugar?`<span>📍 ${ev.lugar}</span>`:''}
+          </div>
+          ${ev.temas?`<div class="event-details">📌 ${ev.temas}</div>`:''}
+        </div>
+        ${ev.nota?`<span class="grade-pill">${ev.nota}</span>`:''}
+      </div>`;
+    });
+  });
+  document.getElementById('upcoming-list').innerHTML = html;
+}
+
+/* ──── Calendar ──── */
+function renderCalendar() {
+  document.getElementById('cal-month-label').textContent = `${monthNames[calMonth]} ${calYear}`;
+  const grid = document.getElementById('calendar-grid');
+  const days = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+  let html = days.map(d=>`<div class="cal-day-name">${d}</div>`).join('');
+
+  const firstDay = new Date(calYear, calMonth, 1).getDay();
+  const daysInMonth = new Date(calYear, calMonth+1, 0).getDate();
+  const daysInPrev = new Date(calYear, calMonth, 0).getDate();
+  const todayStr = today.toISOString().slice(0,10);
+
+  function eventsForDay(y,m,d) {
+    const ds = `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    return events.filter(e=>e.fecha===ds);
+  }
+
+  function dayCell(y,m,d,isOther) {
+    const evs = eventsForDay(y,m,d);
+    const ds = `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const isToday = ds === todayStr;
+    const dots = evs.slice(0,4).map(e=>`<span class="cal-event-dot dot-${e.tipo}"></span>`).join('');
+    const label = evs.length ? `<span class="cal-event-label">${evs[0].materia}${evs.length>1?` +${evs.length-1}`:''}</span>` : '';
+    return `<div class="cal-day${isOther?' other-month':''}${isToday?' today':''}" onclick="openDayModal('${ds}')">
+      <div class="cal-day-num">${d}</div>
+      <div>${dots}</div>${label}
+    </div>`;
+  }
+
+  for(let i=0;i<firstDay;i++) {
+    const d = daysInPrev - firstDay + 1 + i;
+    html += dayCell(calMonth===0?calYear-1:calYear, calMonth===0?11:calMonth-1, d, true);
+  }
+  for(let d=1;d<=daysInMonth;d++) {
+    html += dayCell(calYear, calMonth, d, false);
+  }
+  const remaining = 42 - firstDay - daysInMonth;
+  for(let d=1;d<=remaining;d++) {
+    html += dayCell(calMonth===11?calYear+1:calYear, calMonth===11?0:calMonth+1, d, true);
+  }
+  grid.innerHTML = html;
+}
+
+function changeMonth(dir) {
+  calMonth += dir;
+  if(calMonth<0){calMonth=11;calYear--;}
+  if(calMonth>11){calMonth=0;calYear++;}
+  renderCalendar();
+}
+
+function openDayModal(dateStr) {
+  const evs = events.filter(e=>e.fecha===dateStr).sort((a,b)=>a.hora.localeCompare(b.hora));
+  const [y,m,d] = dateStr.split('-');
+  document.getElementById('day-modal-title').textContent = `📅 ${d} de ${monthNames[parseInt(m)-1]} ${y}`;
+  if(!evs.length) {
+    document.getElementById('day-modal-content').innerHTML =
+      `<div class="empty-state"><div class="empty-icon">🌸</div><p>Sin eventos este día</p></div>`;
+  } else {
+    document.getElementById('day-modal-content').innerHTML = evs.map(ev=>`
+      <div class="event-item">
+        <div class="event-info">
+          <div class="event-title">${badgeHtml(ev.tipo)} ${ev.materia}</div>
+          <div class="event-meta">
+            ${ev.hora?`<span>🕐 ${ev.hora}</span>`:''}
+            ${ev.lugar?`<span>📍 ${ev.lugar}</span>`:''}
+            ${ev.docente?`<span>👩‍🏫 ${ev.docente}</span>`:''}
+          </div>
+          ${ev.temas?`<div class="event-details">📌 <strong>Temas:</strong> ${ev.temas}</div>`:''}
+          ${ev.notas?`<div class="event-details">💬 ${ev.notas}</div>`:''}
+        </div>
+        ${ev.nota?`<span class="grade-pill">${ev.nota}</span>`:''}
+      </div>
+    `).join('');
+  }
+  document.getElementById('day-modal').classList.add('open');
+}
+
+/* ──── Grades ──── */
+function renderGrades() {
+  const withGrades = events.filter(e=>e.nota && e.nota!=='');
+  if(!withGrades.length) {
+    document.getElementById('grades-overview').innerHTML =
+      `<div class="empty-state"><div class="empty-icon">📊</div><p>Aún no hay notas registradas</p></div>`;
+    return;
+  }
+  const bySubject = {};
+  withGrades.forEach(ev => {
+    if(!bySubject[ev.materia]) bySubject[ev.materia] = [];
+    bySubject[ev.materia].push(ev);
+  });
+
+  let html = '<div class="grade-overview">';
+  Object.entries(bySubject).forEach(([subj, evs]) => {
+    const avg = (evs.reduce((s,e)=>s+parseFloat(e.nota),0)/evs.length).toFixed(1);
+    html += `<div class="subject-grade-card">
+      <h4>📚 ${subj}</h4>
+      ${evs.map(ev=>`
+        <div class="grade-row">
+          <span>${typeEmoji[ev.tipo]} ${typeLabel[ev.tipo]} — ${fmtDate(ev.fecha)}</span>
+          <span class="grade-pill">${ev.nota}</span>
+        </div>
+      `).join('')}
+      <div class="grade-row avg-row">
+        <span>📈 Promedio</span>
+        <span>${avg}</span>
+      </div>
+    </div>`;
+  });
+  html += '</div>';
+  document.getElementById('grades-overview').innerHTML = html;
+}
+
+/* ──── Navigation ──── */
+function switchTab(name) {
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(`sec-${name}`).classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach(t=>{
+    if(t.getAttribute('onclick').includes(`'${name}'`)) t.classList.add('active');
+  });
+  if(name==='calendario') renderCalendar();
+  if(name==='notas') renderGrades();
+  if(name==='eventos') renderEvents();
+  if(name==='inicio') { renderStats(); renderUpcoming(); }
+}
+
+/* ──── AI / PDF Study ──── */
+let pdfDocs = []; // {name, size, text}
+let chatHistory = [];
+
+async function extractTextFromPDF(file) {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      try {
+        const base64 = e.target.result.split(',')[1];
+        resolve({ name: file.name, size: file.size, base64, type: 'pdf' });
+      } catch(err) {
+        resolve({ name: file.name, size: file.size, base64: null, error: true });
+      }
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+async function handlePDFs(files) {
+  if(!files.length) return;
+  document.getElementById('ai-status').textContent = 'Procesando PDFs...';
+  for(const file of files) {
+    if(file.type !== 'application/pdf') continue;
+    if(pdfDocs.find(p=>p.name===file.name)) continue;
+    const doc = await extractTextFromPDF(file);
+    pdfDocs.push(doc);
+  }
+  renderPDFList();
+  document.getElementById('ai-status').textContent = `${pdfDocs.length} PDF${pdfDocs.length!==1?'s':''} cargado${pdfDocs.length!==1?'s':''}`;
+  addAIMessage(`¡Perfecto! Cargué ${pdfDocs.length} PDF${pdfDocs.length!==1?'s':''}: ${pdfDocs.map(p=>'📄 '+p.name).join(', ')}. ¿Qué querés saber? Puedo explicarte temas, hacerte preguntas de estudio, hacer un resumen... ¡lo que necesites! 🌸`);
+}
+
+function removePDF(name) {
+  pdfDocs = pdfDocs.filter(p=>p.name!==name);
+  renderPDFList();
+  document.getElementById('ai-status').textContent = pdfDocs.length
+    ? `${pdfDocs.length} PDF${pdfDocs.length!==1?'s':''} cargado${pdfDocs.length!==1?'s':''}`
+    : 'Sube un PDF para comenzar';
+}
+
+function renderPDFList() {
+  const list = document.getElementById('pdf-list');
+  if(!pdfDocs.length) {
+    list.innerHTML = `<div style="text-align:center;color:var(--text-light);font-size:0.83rem;padding:16px 0;">Aún no hay PDFs subidos</div>`;
+    return;
+  }
+  list.innerHTML = pdfDocs.map(p => `
+    <div class="pdf-item">
+      <span>📄</span>
+      <span class="pdf-item-name" title="${p.name}">${p.name}</span>
+      <span class="pdf-item-size">${(p.size/1024).toFixed(0)}KB</span>
+      <button class="pdf-remove" onclick="removePDF('${p.name.replace(/'/g,"\\'")}')">✕</button>
+    </div>
+  `).join('');
+}
+
+function addUserMessage(text) {
+  const msgs = document.getElementById('chat-messages');
+  msgs.innerHTML += `<div class="user-bubble">${escHtml(text)}</div>`;
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function addAIMessage(text) {
+  const msgs = document.getElementById('chat-messages');
+  const typing = msgs.querySelector('.typing-bubble');
+  if(typing) typing.remove();
+  msgs.innerHTML += `<div class="ai-bubble">${escHtml(text)}</div>`;
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function showTyping() {
+  const msgs = document.getElementById('chat-messages');
+  msgs.innerHTML += `<div class="typing-bubble"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>`;
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function escHtml(t) {
+  return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+}
+
+function clearChat() {
+  chatHistory = [];
+  document.getElementById('chat-messages').innerHTML =
+    `<div class="ai-bubble">¡Chat limpio! ✨ Subí tus PDFs y preguntame lo que necesites 🌸</div>`;
+}
+
+function quickPrompt(text) {
+  document.getElementById('chat-input').value = text;
+  sendMessage();
+}
+
+async function sendMessage() {
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if(!text) return;
+  if(!pdfDocs.length) {
+    addAIMessage('Primero tenés que subir al menos un PDF con tus apuntes 📄');
+    return;
+  }
+
+  input.value = '';
+  input.style.height = 'auto';
+  addUserMessage(text);
+  showTyping();
+
+  const sendBtn = document.getElementById('send-btn');
+  sendBtn.disabled = true;
+
+  // Build messages with PDF content
+  const systemPrompt = `Sos un asistente de estudio amigable y muy útil para una estudiante universitaria de Anatomía y Química Orgánica 1. Tu trabajo es ayudarla a estudiar a partir de sus apuntes en PDF. Respondé siempre en español, de forma clara, organizada y cálida. Usá emojis ocasionalmente para hacer la respuesta más amena. Si te piden un cuestionario, numerá las preguntas claramente. Si te piden un resumen, usá secciones con títulos. Siempre basate en el contenido de los PDFs proporcionados.`;
+
+  // Build user content with PDFs + question
+  const userContent = [
+    ...pdfDocs.map(p => ({
+      type: 'document',
+      source: { type: 'base64', media_type: 'application/pdf', data: p.base64 }
+    })),
+    { type: 'text', text }
+  ];
+
+  // Add to history (text only for history, PDFs always re-sent)
+  chatHistory.push({ role: 'user', text });
+
+  // Build messages array: include recent history for context (last 6 exchanges)
+  const recentHistory = chatHistory.slice(-7, -1);
+  const messages = [
+    ...recentHistory.map(h => ({
+      role: h.role,
+      content: h.role === 'user'
+        ? [...pdfDocs.map(p=>({type:'document',source:{type:'base64',media_type:'application/pdf',data:p.base64}})), {type:'text',text:h.text}]
+        : h.text
+    })),
+    { role: 'user', content: userContent }
+  ];
+
+  try {
+    const response = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1500,
+        system: systemPrompt,
+        messages
+      })
+    });
+    const data = await response.json();
+    const reply = data.content?.map(b=>b.text||'').join('\n').trim() || 'No pude generar una respuesta. Intenta de nuevo 🌸';
+    chatHistory.push({ role: 'assistant', text: reply });
+    addAIMessage(reply);
+  } catch(err) {
+    addAIMessage('Hubo un error al conectar con la IA. Verificá tu conexión e intentá de nuevo 🌸');
+  }
+
+  sendBtn.disabled = false;
+}
+
+function setFilter(type, btn) {
+  currentFilter = type;
+  document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
+  btn.classList.add('active');
+  renderEvents();
+}
+
+function refreshAll() {
+  renderSubjectProgress();
+  renderStats();
+  renderUpcoming();
+  renderEvents();
+  renderGrades();
+  renderCalendar();
+}
+
+/* close modals clicking outside */
+document.getElementById('edit-modal').addEventListener('click', function(e){
+  if(e.target===this) closeModal();
+});
+document.getElementById('day-modal').addEventListener('click', function(e){
+  if(e.target===this) closeDayModal();
+});
+
+/* Init form */
+document.getElementById('f-fecha').value = today.toISOString().slice(0,10);
+updateTipoOptions();
+
+refreshAll();
+</script>
+
+</body>
+</html>
