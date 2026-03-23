@@ -1268,6 +1268,11 @@ async function sendMessage() {
       })
     });
     const data = await response.json();
+    if (!response.ok) {
+      addAIMessage('❌ Error: ' + (data.error || 'No se pudo conectar'));
+      sendBtn.disabled = false;
+      return;
+    }
     const reply = data.content?.map(b=>b.text||'').join('\n').trim() || 'No pude generar una respuesta. Intenta de nuevo 🌸';
     chatHistory.push({ role: 'assistant', text: reply });
     addAIMessage(reply);
